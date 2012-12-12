@@ -45,8 +45,7 @@
   static dispatch_once_t pred;
   
   dispatch_once(&pred, ^{
-    sharedInstance = [BITHockeyManager alloc];
-    sharedInstance = [sharedInstance init];
+    sharedInstance = [[BITHockeyManager alloc] init];
   });
   
   return sharedInstance;

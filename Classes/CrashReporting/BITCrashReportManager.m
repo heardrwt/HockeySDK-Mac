@@ -39,6 +39,8 @@
 #define SDK_NAME @"HockeySDK-Mac"
 #define SDK_VERSION @"1.0"
 
+NSString * const kHockeyErrorDomain = @"HockeyErrorDomain";
+
 /**
  * @internal
  *
@@ -88,6 +90,7 @@
 @synthesize exceptionInterceptionEnabled = _exceptionInterceptionEnabled;
 @synthesize delegate = _delegate;
 @synthesize appIdentifier = _appIdentifier;
+@synthesize submissionURL = _submissionURL;
 @synthesize companyName = _companyName;
 @synthesize userName = _userName;
 @synthesize userEmail = _userEmail;
@@ -194,6 +197,7 @@
   [_responseData release]; _responseData = nil;
   
   [_appIdentifier release]; _appIdentifier = nil;
+  [_submissionURL release]; _submissionURL = nil;
   [_companyName release]; _companyName = nil;
 
   [_fileManager release]; _fileManager = nil;
@@ -623,15 +627,19 @@
   NSMutableURLRequest *request = nil;
   NSString *boundary = @"----FOO";
   
-  request = [NSMutableURLRequest requestWithURL:
-             [NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes?sdk=%@&sdk_version=%@&feedbackEnabled=no",
-                                   _submissionURL,
-                                   [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                                   SDK_NAME,
-                                   SDK_VERSION
-                                   ]
+  if (self.appIdentifier) {
+    request = [NSMutableURLRequest requestWithURL:
+              [NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes?sdk=%@&sdk_version=%@&feedbackEnabled=no",
+                                    _submissionURL,
+                                    [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                                    SDK_NAME,
+                                    SDK_VERSION
+                                    ]
               ]];
-  
+  } else {
+    request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.submissionURL]];
+  }
+    
   [request setValue:SDK_NAME forHTTPHeaderField:@"User-Agent"];
   [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
   [request setTimeoutInterval: 15];

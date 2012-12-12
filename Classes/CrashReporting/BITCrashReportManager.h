@@ -60,8 +60,7 @@ typedef enum {
   HockeyAPIReceivedEmptyResponse,
   HockeyAPIErrorWithStatusCode
 } HockeyErrorReason;
-static NSString *kHockeyErrorDomain = @"HockeyErrorDomain";
-
+extern NSString * const kHockeyErrorDomain;
 
 typedef enum HockeyCrashAlertType {
   HockeyCrashAlertTypeSend = 0,
@@ -120,6 +119,9 @@ typedef enum HockeyCrashReportStatus {
 
 // The HockeyApp app identifier (required)
 @property (nonatomic, retain) NSString *appIdentifier;
+
+// The submission URL (required if not using hockeyapp hosted service, should include /crash_v200.php)
+@property (nonatomic, retain) NSString *submissionURL;
 
 // defines if Uncaught Exception Interception should be used, default to NO
 @property (nonatomic, assign) BOOL exceptionInterceptionEnabled;
