@@ -2,7 +2,7 @@
  * Author: Andreas Linde <mail@andreaslinde.de>
  *         Kent Sutherland
  *
- * Copyright (c) 2012 HockeyApp, Bit Stadium GmbH.
+ * Copyright (c) 2012-2013 HockeyApp, Bit Stadium GmbH.
  * Copyright (c) 2011 Andreas Linde & Kent Sutherland.
  * All rights reserved.
  *
@@ -60,7 +60,7 @@ typedef enum {
   HockeyAPIReceivedEmptyResponse,
   HockeyAPIErrorWithStatusCode
 } HockeyErrorReason;
-extern NSString * const kHockeyErrorDomain;
+extern NSString *const __attribute__((unused)) kHockeyErrorDomain;
 
 typedef enum HockeyCrashAlertType {
   HockeyCrashAlertTypeSend = 0,
@@ -111,6 +111,8 @@ typedef enum HockeyCrashReportStatus {
   BOOL                _didCrashInLastSession;
   BOOL                _analyzerStarted;
   NSMutableDictionary *_approvedCrashReports;
+
+  BOOL       _invokedReturnToMainApplication;
 }
 
 - (NSString *)modelVersion;
